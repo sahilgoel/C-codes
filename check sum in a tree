@@ -1,0 +1,89 @@
+#include <iostream>
+#include <string.h>
+using namespace std;
+struct node
+{
+    int data;
+    node *left,*right;
+}*root=NULL,*root_2=NULL;
+
+node * makenode(int data)
+{
+    node *temp=new node;
+    temp->data=data;
+    temp->left=NULL;
+    temp->right=NULL;
+    return temp;
+    
+}
+node *maketree()
+{
+    node *temp;
+    temp=makenode(10);
+    root=temp;
+    
+    temp=makenode(4);
+    root->left=temp;
+   
+    temp=makenode(8);
+    root->right=temp;
+    
+    temp=makenode(3);
+    root->left->left=temp;
+   
+    temp=makenode(2);
+    root->left->left->left=temp;
+  
+    temp=makenode(11);
+    root->right->right=temp;
+  
+    temp=makenode(7);
+    root->right->left=temp;
+  
+    temp=makenode(6);
+    root->right->left->left=temp;
+
+    return root;
+}
+void display(int p[],int i,int depth)
+
+{
+    for(int j=depth;j>=i;j--)
+        cout<<p[j]<<" ";
+    cout<<endl;
+    
+}
+
+void findsum(node * root, int sum, int p[],int depth)
+{
+    if(root==NULL)
+        return;
+    
+    p[depth]=root->data;
+    int t=0;
+    for(int i=depth;i>=0;i--)
+    {
+        t+=p[i];
+        if(t==sum)
+            display(p,i,depth);
+    }
+    findsum(root->left,sum,p,depth+1);
+    findsum(root->right,sum,p,depth+1);
+    
+}
+
+void findpath(node *root,int sum)
+{
+    int p[20];
+    findsum(root,sum,p,0);
+    
+}
+
+
+
+
+int main() {
+    root=maketree();
+    findpath(root,19);
+    return 0;
+}
