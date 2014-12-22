@@ -1,0 +1,87 @@
+#include <iostream>
+#include <string.h>
+using namespace std;
+int top[2]={0};
+int stacks[2][20];
+
+
+void display()
+{
+    for (int i=0;i<2;i++)
+    {
+        cout<<i+1<<" stack --> ";
+        for(int j=0;j<top[i];j++)
+        {
+            cout<<stacks[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+    cout<<endl;
+    
+}
+void push(int stnum, int data)
+{
+    stacks[stnum-1][top[stnum-1]]=data;
+    top[stnum-1]++;
+}
+
+int pop(int stnum)
+{
+    
+    top[stnum-1]--;
+    return (stacks[stnum-1][top[stnum-1]]);
+    
+}
+
+void insert(int data)
+{
+    push(1,data);
+}
+
+int deque()
+{
+    if(top[1]==0 && top[0]==0)
+    {
+        cout<<"Underflow";
+        return -1;
+    }
+    else if(top[1]==0)
+    {
+        while(top[0]!=0)
+        {
+            int temp=pop(1);
+            push(2,temp);
+        }
+        return pop(2);
+        
+    }
+    else
+        return pop(2);
+    
+}
+
+int main() {
+    
+    insert(4);
+    insert(5);
+    insert(6);
+    display();
+    int k = deque();
+    cout<<k<<endl;
+    display();
+    insert(1);
+    insert(10);
+    display();
+    k = deque();
+    cout<<k<<endl;
+    k = deque();
+    cout<<k<<endl;
+    k = deque();
+    cout<<k<<endl;
+    k = deque();
+    cout<<k<<endl;
+    display();
+    cout<<k<<endl;
+    
+    return 0;
+}
