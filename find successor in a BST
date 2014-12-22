@@ -1,0 +1,113 @@
+#include <iostream>
+#include <string.h>
+using namespace std;
+struct node
+{
+    int data;
+    node *left,*right,*parent;
+}*root=NULL,*case1,*case2;
+int ind=0;
+int arr[10];
+node * makenode(int data)
+{
+    node *temp=new node;
+    temp->data=data;
+    temp->left=NULL;
+    temp->right=NULL;
+    temp->parent=NULL;
+    return temp;
+    
+}
+node *maketree()
+{
+    node *temp;
+    temp=makenode(5);
+    root=temp;
+    root->parent=NULL;
+    case1=root;
+    temp=makenode(4);
+    root->left=temp;
+    temp->parent=root;
+    temp=makenode(8);
+    root->right=temp;
+    temp->parent=root;
+    temp=makenode(3);
+    root->left->left=temp;
+    temp->parent=root->left;
+    temp=makenode(2);
+    root->left->left->left=temp;
+    temp->parent=root->left->left;
+    temp=makenode(11);
+    root->right->right=temp;
+    temp->parent=root->right;
+    case2=temp;
+    temp=makenode(7);
+    root->right->left=temp;
+    temp->parent=root->right;
+    temp=makenode(6);
+    root->right->left->left=temp;
+    temp->parent=root->right->left;
+    
+    return root;
+}
+
+void inorder(node *root)
+{
+    if(root!=NULL)
+    {
+        inorder(root->left);
+        cout<<root->data<<" ";
+        //if(root->parent!=NULL)
+          //  cout<<"("<<root->parent->data<<")"<<" ";
+        arr[ind++]=root->data;
+        inorder(root->right);
+    }
+    
+}
+
+
+void findsucc(node *element)
+{
+    if(element->right!=NULL)
+        {
+            node *succ=element->right;
+            while(succ->left!=NULL)
+                succ=succ->left;
+            cout<<succ->data<<endl;
+        }
+    else if(element->parent==NULL)
+        cout<<"No successor"<<endl;
+    else if(element->parent->left==element)
+        cout<<element->parent->data<<endl;
+    else
+    {
+        node *succ=element->parent;
+        while(succ->parent!=NULL && succ!=succ->parent->left)
+        {
+            if(succ->parent==NULL)
+            {
+                cout<<"NO SUCCESSOR";
+                break;
+            }
+            succ=succ->parent;
+        }
+        
+        if(succ->parent==NULL && succ->data<element->data)
+            cout<<"No Successor";
+        else
+            cout<<succ->data<<endl;
+        
+    }
+    
+}
+
+int main() {
+    root=maketree();
+    inorder(root);
+    cout<<endl;
+    findsucc(case1);
+    findsucc(case2);
+    
+    cout<<endl;
+    return 0;
+}
