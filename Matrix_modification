@@ -1,0 +1,57 @@
+
+#include <iostream>
+#include <string.h>
+using namespace std;
+#define n 4
+#define m 5
+
+
+void display(int arr[m][n])
+{
+    for(int i=0;i<m;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            cout<<arr[i][j]<<"\t";
+        }
+        cout<<"\n";
+    }
+    
+}
+
+void makezeros(int arr[m][n])
+{
+    int rows[m]={0};
+    int columns[n]={0};
+    for(int i=0;i<m;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            if(arr[i][j]==0)
+            {
+                rows[i]=1;
+                columns[j]=1;
+            }
+        }
+    }
+    
+    for(int i=0;i<m;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            if(rows[i]==1 || columns[j]==1)
+                arr[i][j]=0;
+        }
+    }
+    
+}
+
+
+int main() {
+    int arr[m][n]={1,2,3,4,5,0,7,8,9,10,11,0,13,14,15,16,0,18,19,20};
+    display(arr);
+    makezeros(arr);
+    cout<<endl;
+    display(arr);
+    return 0;
+}
