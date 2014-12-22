@@ -1,0 +1,76 @@
+#include <iostream>
+#include <string.h>
+using namespace std;
+int top[3]={0};
+int stacks[3][20];
+
+
+void display()
+{
+    for (int i=0;i<3;i++)
+    {
+        cout<<i+1<<" stack --> ";
+        for(int j=0;j<top[i];j++)
+        {
+            cout<<stacks[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+    cout<<endl;
+    
+}
+void push(int stnum, int data)
+{
+    stacks[stnum-1][top[stnum-1]]=data;
+    top[stnum-1]++;
+}
+
+int pop(int stnum)
+{
+    
+    top[stnum-1]--;
+    return (stacks[stnum-1][top[stnum-1]]);
+    
+}
+
+void movedisks(int src,int aux,int dest,int n)
+{
+ if(n==1)
+ {
+     int k=pop(src);
+     push(dest,k);
+     display();
+ }
+ else if(n==2)
+ {
+     int k=pop(src);
+     push(aux,k);
+     display();
+     k=pop(src);
+     push(dest,k);
+     display();
+     k=pop(aux);
+     push(dest,k);
+     display();
+ }
+    else
+    {
+        movedisks(src,dest,aux,n-1);
+        int k=pop(src);
+        push(dest,k);
+        movedisks(aux,src,dest,n-1);
+    }
+
+    
+    
+}
+int main() {
+    
+    push(1,10);
+    push(1,9);
+    push(1,8);
+    push(1,7);
+    display();
+    movedisks(1,2,3,4);
+    return 0;
+}
