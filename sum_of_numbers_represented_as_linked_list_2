@@ -1,0 +1,127 @@
+#include <iostream>
+#include <string.h>
+using namespace std;
+
+struct node
+{
+    int data;
+    node* next;
+};
+
+
+void push(node **head, int data)
+{
+    node *temp;
+    temp=new node;
+    temp->data=data;
+    temp->next=NULL;
+    if(*head==NULL)
+    {
+        *head=temp;
+    }
+    else
+    {
+        temp->next=*head;
+        *head=temp;
+    }
+    
+}
+
+void display(node * head)
+{
+    node *temp=head;
+    while(temp!=NULL)
+    {
+        
+        cout<<temp->data;
+        if(temp->next!=NULL)
+            cout<<"-->";
+        temp=temp->next;
+    }
+    
+}
+
+node* myreverse(node* head)
+{
+    node *prev=NULL,*current=NULL,*fwd=NULL;
+    current=head;
+    while(current!=NULL)
+    {
+        fwd=current->next;
+        current->next=prev;
+        prev=current;
+        current=fwd;
+        
+    }
+    return prev;
+}
+
+node * mysum(node *head1,node *head2)
+{
+    node *sum=NULL,*current=NULL;
+    int carry=0;
+    int psum=0;
+    while(head1!=NULL || head2!=NULL)
+    {
+        int a=0,b=0;
+        if(head1)
+            a=head1->data;
+        if(head2)
+            b=head2->data;
+        
+        psum=a+b+ carry;
+        carry=0;
+        carry=psum/10;
+        psum=psum%10;
+        node *temp=new node;
+        temp->data=psum;
+        temp->next=NULL;
+        if(sum==NULL)
+        {
+            sum=temp;
+            current=temp;
+        }
+        else
+        {
+            current->next=temp;
+            current=temp;
+            
+        }
+        if(head1) head1=head1->next;
+        if(head2) head2=head2->next;
+        
+    }
+    if(carry!=0)
+    {
+        node *temp=new node;
+        temp->data=carry;
+        temp->next=NULL;
+        current->next=temp;
+        current=temp;
+    }
+    return sum;
+}
+
+
+int main() {
+    node *head1=NULL,*head2=NULL;
+    push(&head1,6);
+    push(&head1,1);
+    push(&head1,7);
+     push(&head2,9);
+    push(&head2,3);
+     push(&head2,9);
+    display(head1);
+    cout<<endl;
+    display(head2);
+    cout<<endl;
+    head1=myreverse(head1);
+    head2=myreverse(head2);
+    node *sum = mysum(head1,head2);
+    sum=myreverse(sum);
+    head1=myreverse(head1);
+    head2=myreverse(head2);
+    display(sum);
+    cout<<endl;
+    return 0;
+}
