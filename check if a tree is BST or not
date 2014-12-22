@@ -1,0 +1,95 @@
+#include <iostream>
+#include <string.h>
+using namespace std;
+struct node
+{
+    int data;
+    node *left,*right;
+}*root=NULL;
+int ind=0;
+int arr[10];
+node * makenode(int data)
+{
+    node *temp=new node;
+    temp->data=data;
+    temp->left=NULL;
+    temp->right=NULL;
+    return temp;
+    
+}
+node *maketree()
+{
+    node *temp;
+    temp=makenode(5);
+    root=temp;
+    temp=makenode(1);
+    root->left=temp;
+    temp=makenode(6);
+    root->right=temp;
+    temp=makenode(3);
+    root->left->left=temp;
+    temp=makenode(8);
+    root->left->left->left=temp;
+    temp=makenode(6);
+    root->left->right=temp;
+    temp=makenode(11);
+    root->right->right=temp;
+    
+    return root;
+}
+
+void inorder(node *root)
+{
+    if(root!=NULL)
+    {
+        inorder(root->left);
+        cout<<root->data<<" ";
+        arr[ind++]=root->data;
+        inorder(root->right);
+    }
+    
+}
+
+int height(node *root)
+{
+    if(root==NULL)
+        return 0;
+    else
+    {
+        return 1+max(height(root->left),height(root->right));
+    }
+    
+    
+}
+
+void checkbalance(node *root)
+{
+    
+    int left=height(root->left);
+    int right=height(root->right);
+    cout<<left<<" "<<right<<endl;
+    if(abs(right-left)<=1)
+        cout<<"Balanced Tree"<<endl;
+    else
+        cout<<"Not Balanced"<<endl;
+    
+}
+
+
+int main() {
+    root=maketree();
+    inorder(root);
+    cout<<endl;
+    checkbalance(root);
+    for(int j=0;j<ind;j++)
+    {
+        if(arr[j]>arr[j+1])
+        {
+            cout<<"Not a BST"<<endl;
+            break;
+        }
+    }
+    cout<<endl;
+    return 0;
+}
+
