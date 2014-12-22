@@ -1,0 +1,100 @@
+#include <iostream>
+#include <string.h>
+using namespace std;
+
+struct node
+{
+    int data;
+    node* next;
+};
+
+
+void push(node **head, int data)
+{
+    node *temp;
+    temp=new node;
+    temp->data=data;
+    temp->next=NULL;
+    if(*head==NULL)
+    {
+        *head=temp;
+    }
+    else
+    {
+        temp->next=*head;
+        *head=temp;
+    }
+    
+}
+
+void display(node * head)
+{
+    node *temp=head;
+    while(temp!=NULL)
+    {
+        
+        cout<<temp->data;
+        if(temp->next!=NULL)
+            cout<<"-->";
+        temp=temp->next;
+    }
+    cout<<endl;
+    
+}
+
+int checkpalindrome(node *head)
+{
+    node *slow=head,*fast=head;
+    int count=0,flag=0;
+    
+    while(fast!=NULL && fast->next!=NULL)
+    {
+        slow=slow->next;
+        fast=fast->next->next;
+        count=count+2;
+    }
+    if(fast)
+        count++;
+    int arr[count],top=0;
+    
+    node *temp=head;
+    while(temp!=slow)
+    {
+        arr[top++]=temp->data;
+        temp=temp->next;
+    }
+    if(count%2==1)
+        slow=slow->next;
+    
+
+    while(slow!=NULL)
+    {
+     if(arr[--top]!=slow->data)
+     {
+         flag=1;
+         break;
+     }
+        slow=slow->next;
+    }
+    
+    
+    return flag;
+}
+
+int main() {
+    node *head=NULL;
+    push(&head,1);
+    push(&head,2);
+    push(&head,3);
+    push(&head,4);
+    push(&head,5);
+    push(&head,5);
+    push(&head,4);
+    push(&head,3);
+    push(&head,2);
+    push(&head,1);
+    display(head);
+    int flag=checkpalindrome(head);
+    if(flag) cout<<"Not Palindrome\n"; else cout<<"Palindrome\n";
+    return 0;
+}
