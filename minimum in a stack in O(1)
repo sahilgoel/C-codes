@@ -1,0 +1,69 @@
+#include <iostream>
+#include <string.h>
+using namespace std;
+int top=0,mintop=0;
+int stack[20],minstack[20];
+
+
+void display(int arr[], int n)
+{
+    for(int i=0;i<n;i++)
+        cout<<arr[i]<<" ";
+    cout<<endl;
+    
+}
+void push(int data)
+{
+    if(top==20)
+    {
+        cout<<"Overflow";
+        return;
+    }
+    else if(top==0)
+    {
+        stack[top++]=data;
+        minstack[mintop++]=data;
+    }
+    else
+    {
+        stack[top++]=data;
+        if(minstack[mintop-1]>=data)
+            minstack[mintop++]=data;
+    }
+    
+}
+
+void pop()
+{
+    if(top==0)
+    {
+        cout<<"Underflow";
+        return;
+    }
+    else
+    {
+        int data=stack[--top];
+        cout<<data<<endl;
+        if(data==minstack[mintop-1])
+            mintop--;
+    }
+    
+}
+int main() {
+    
+    push(5);
+    push(7);
+    push(3);
+    push(1);
+    push(20);
+    display(stack,top);
+    display(minstack,mintop);
+    pop();
+    display(stack,top);
+    display(minstack,mintop);
+    pop();
+    display(stack,top);
+    display(minstack,mintop);
+    
+    return 0;
+}
