@@ -1,0 +1,97 @@
+#include <iostream>
+#include <string.h>
+using namespace std;
+
+struct node
+{
+    int data;
+    node* next;
+};
+
+
+void push(node **head, int data)
+{
+    node *temp;
+    temp=new node;
+    temp->data=data;
+    temp->next=NULL;
+    if(*head==NULL)
+    {
+        *head=temp;
+    }
+    else
+    {
+        temp->next=*head;
+        *head=temp;
+    }
+    
+}
+
+void display(node * head)
+{
+    node *temp=head;
+    while(temp!=NULL)
+    {
+        
+        cout<<temp->data;
+        if(temp->next!=NULL)
+            cout<<"-->";
+        temp=temp->next;
+    }
+    
+}
+
+void deletedup(node * head)
+{
+    node *first=head;
+    node *second,*prev;
+    while(first!=NULL)
+    {
+        prev=first;
+        second=first->next;
+        while(second!=NULL)
+        {
+            if(second->data==first->data)
+            {
+                prev->next=second->next;
+                second=prev->next;
+            }
+            else
+            {
+                prev=second;
+                second=second->next;
+                
+            }
+            
+        }
+        first=first->next;
+        
+    }
+    
+    
+}
+
+
+int main() {
+    node *head=NULL;
+     push(&head,1);
+    push(&head,7);
+    push(&head,7);
+    push(&head,1);
+    push(&head,9);
+    push(&head,1);
+    push(&head,2);
+    push(&head,7);
+     push(&head,1);
+    push(&head,7);
+     push(&head,1);
+    
+    
+    display(head);
+    cout<<endl;
+    deletedup(head);
+    display(head);
+    cout<<endl;
+    
+    return 0;
+}
