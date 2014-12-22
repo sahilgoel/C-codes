@@ -1,0 +1,110 @@
+#include <iostream>
+#include <string.h>
+using namespace std;
+struct node
+{
+    int data;
+    node *left,*right;
+}*root=NULL;
+
+node * makenode(int data)
+{
+    node *temp=new node;
+    temp->data=data;
+    temp->left=NULL;
+    temp->right=NULL;
+    return temp;
+    
+}
+
+void inorder(node *root)
+{
+    if(root!=NULL)
+    {
+        inorder(root->left);
+        cout<<root->data<<" ";
+        inorder(root->right);
+    }
+    
+}
+
+node * insert(node * root,int data)
+{
+    
+    if(root==NULL)
+    {
+        root=makenode(data);
+        
+    }
+    else if(data<=root->data)
+    {
+        root->left=insert(root->left,data);
+    }
+    else
+    {
+        root->right=insert(root->right,data);
+    }
+        
+    
+    return root;
+}
+
+int height(node *root)
+{
+    if(root==NULL)
+        return 0;
+    else
+    {
+        return 1+max(height(root->left),height(root->right));
+    }
+    
+    
+}
+
+void checkbalance(node *root)
+{
+    
+    int left=height(root->left);
+    int right=height(root->right);
+    cout<<left<<" "<<right<<endl;
+    if(abs(right-left)<=1)
+        cout<<"Balanced Tree"<<endl;
+    else
+        cout<<"Not Balanced"<<endl;
+    
+}
+
+node * createbalancedtree(int arr[],int l,int h)
+{
+    node *temp=NULL;
+    if(l>h)
+        return NULL;
+    if(l==h)
+    {
+        temp=insert(temp,arr[l]);
+        return temp;
+    }
+    else if(l==h-1)
+    {
+        temp=insert(temp,arr[l]);
+        temp->right=makenode(arr[h]);
+    }
+    else
+    {
+        int mid=(l+h)/2;
+        temp=makenode(arr[mid]);
+        temp->left=createbalancedtree(arr,l,mid-1);
+        temp->right=createbalancedtree(arr,mid+1,h);
+    }
+    return temp;
+}
+
+int main() {
+    int arr[16]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+    root = createbalancedtree(arr,0,15);
+    //cout<<"Here\n";
+    inorder(root);
+    cout<<"\n";
+    checkbalance(root);
+    return 0;
+}
