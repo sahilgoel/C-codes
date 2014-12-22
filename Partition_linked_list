@@ -1,0 +1,110 @@
+#include <iostream>
+#include <string.h>
+using namespace std;
+
+struct node
+{
+    int data;
+    node* next;
+};
+
+
+void push(node **head, int data)
+{
+    node *temp;
+    temp=new node;
+    temp->data=data;
+    temp->next=NULL;
+    if(*head==NULL)
+    {
+        *head=temp;
+    }
+    else
+    {
+        temp->next=*head;
+        *head=temp;
+    }
+    
+}
+
+void display(node * head)
+{
+    node *temp=head;
+    while(temp!=NULL)
+    {
+        
+        cout<<temp->data;
+        if(temp->next!=NULL)
+            cout<<"-->";
+        temp=temp->next;
+    }
+    
+}
+
+node * partition(node *head, int p)
+{
+    node *less=NULL;
+    node *more=NULL;
+    node *pivot=NULL;
+    node *start=head;
+    node *finalhead=NULL;
+    node *savemore=NULL;
+    while(start!=NULL)
+    {
+        if(start->data<p)
+        {
+            if(less==NULL)
+            {
+                less=start;
+                finalhead=start;
+            }
+            else
+            {
+                less->next=start;
+                less=start;
+            }
+        }
+        else if(start->data>p)
+        {
+            if(more==NULL)
+            {
+                savemore=start;
+                more=start;
+            }
+            else
+            {
+                more->next=start;
+                more=start;
+            }
+        }
+        else
+            pivot=start;
+        
+        start=start->next;
+    }
+    
+    less->next=pivot;
+    pivot->next=savemore;
+    return finalhead;
+}
+
+
+int main() {
+    node *head=NULL;
+    push(&head,9);
+    push(&head,2);
+    push(&head,7);
+     push(&head,1);
+    push(&head,3);
+     push(&head,4);
+    push(&head, 5);
+    push(&head, 6);
+    push(&head, 8);
+    display(head);
+    cout<<endl;
+    head=partition(head,5);
+    display(head);
+    cout<<endl;
+    
+    return 0;
+}
